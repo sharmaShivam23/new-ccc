@@ -15,6 +15,7 @@ import Krish from "../2024-2028batchimg/Krish.webp";
 import Sanjana from "../2024-2028batchimg/Sanjana.jpeg";
 
 
+
 export const obj2 = [
   {
     name: "Anurag Gupta",
