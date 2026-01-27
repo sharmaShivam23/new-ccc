@@ -15,6 +15,7 @@ import { obj4 } from "@/data/4thyear";
 // import { obj2 } from "@/data/2ndyear";
 import {obj3} from "@/data/3rdyear";
 import { obj5 } from "@/data/Alumni2";
+import { obj2 } from "@/data/2ndyear";  
 
 export const TeamCards = () => {
   const [activeYear, setActiveYear] = useState("four");
@@ -259,12 +260,73 @@ const SecondYear = ({ activeYear , data3,setdata3 }) => {
   
 
     
-  return (
+    return (
     <>
       <ToastContainer />
       <div className="h-auto sm:max-w-[90vw] w-full z-50 flex justify-center flex-col  items-center py-8">
+         
+          <h1 className="mb-10 mt-10 text-2xl font-jetbrains font-extrabold underline text-amber-500">
+            (Batch 2021-2025)
+          </h1>
 
-         <p className="text-2xl font-bold text-white">No Data Found</p> 
+        <p className="font-bold text-2xl text-white">{data3}</p>
+
+       
+          <div className="flex justify-center items-center flex-wrap gap-7">
+             {obj5.length === 0 ? (
+            <p className="font-[550] text-white text-2xl ">No data found</p>
+           ) : (
+          obj2.map((details, index) => (
+              <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              key={index}
+              className="flex justify-center items-center"
+            >
+              <div className="relative w-[320px] m-4  cursor-pointer h-[25rem] overflow-hidden border-2 border-amber-500 bg-white rounded-2xl group">
+                <div className="w-full img h-full  flex justify-center items-center flex-col   transition-all ">
+                  <img
+                    src={details.profile}
+                    alt={details.name}
+                    className="h-[13rem] w-[13rem] object-cover scale-90 rounded-full border-2 border-amber-500 shadow-2xl shadow-amber-500"
+                  />
+                  <div className="mt-6 text-center">
+                    <p className="text-xl text-black">{details.domain}</p>
+                    <p className="text-2xl font-bold text-black">
+                      {details.name}
+                    </p>
+                    <img
+                      src={cardbg1}
+                      className="w-full absolute bottom-0 left-0 object-center"
+                      alt=""
+                    />
+                  </div>
+                </div>
+  
+                <div className="absolute content top-0 left-0 w-full h-full border-amber-500 bg-amber-500  flex justify-center items-center text-red-400 transition-all duration-700 ease-in-out transform group-hover:translate-x-0  -translate-x-full flex-col">
+                  <div className="tags text-5xl p-3  flex gap-3 text-black">
+                    <a href={details.linkedin}>
+                      <FaLinkedin />
+                    </a>
+                    <a href={details.github}>
+                      <FaSquareGithub />
+                    </a>
+                    <a href={details.instagram}>
+                      <FaSquareInstagram />
+                    </a>
+                  </div>
+                  <p className="mb-4 text-black font-mono p-5 text-center">
+                    {details.about}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+            ))
+          )}
+          </div> 
+
+        
         
       </div>
     </>
