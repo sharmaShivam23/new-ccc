@@ -7,7 +7,7 @@ import Manas from "../2024-2028batchimg/Manas.jpg";
 import Satyam from "../2024-2028batchimg/SatyamAgrawal.jpg";
 import Shubham from "../2024-2028batchimg/ShubhamPandey.jpg";
 import Suhani from "../2024-2028batchimg/Suhani.jpg";
-import Vaishnavi from "../2024-2028batchimg/Vaishnavikrishnan_.jpg";
+import Vaishnavi from "../2024-2028batchimg/VaishnaviKrishnan.jpg";
 import Arpan from "../2024-2028batchimg/Arpan.jpg";
 import Aryan from "../2024-2028batchimg/AryanSingh.jpg";
 import Shaurya from "../2024-2028batchimg/ShauryaVerma.jpg";
