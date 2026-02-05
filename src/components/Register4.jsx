@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
@@ -12,10 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import { FormInput, FormSelect } from '../Resgistration/FormComponents';
-// import GlowingCursor from '../Resgistration/GlowingCursor';
+
 import { InteractiveBackground } from '../Resgistration/InteractiveBackground';
 import { LeftSideContent } from '../Resgistration/LeftSideContent';
-import { flickerStyles } from '../Resgistration/AnimationStyles'; 
+import { flickerStyles } from '../Resgistration/AnimationStyles';
 
 const TiltCard = ({ children, className = "" }) => {
   const x = useMotionValue(0);
@@ -45,7 +43,8 @@ const TiltCard = ({ children, className = "" }) => {
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className={`relative w-full h-full flex flex-col perspective-1000 ${className}`}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#00aaff]/10 to-transparent rounded-[20px] -z-10 blur-xl opacity-0 hover:opacity-100 transition-opacity duration-500" style={{ transform: "translateZ(-50px)" }} />
+      {/* Updated Gradient to Violet */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/10 to-transparent rounded-[20px] -z-10 blur-xl opacity-0 hover:opacity-100 transition-opacity duration-500" style={{ transform: "translateZ(-50px)" }} />
       <div style={{ transform: "translateZ(30px)", width: "100%", height: "100%" }}>{children}</div>
     </motion.div>
   );
@@ -120,9 +119,10 @@ export default function Register4() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col font-sans bg-[#000000] text-white selection:bg-blue-500/30 overflow-x-hidden">
+    // Updated selection color to violet-500
+    <div className="relative min-h-screen w-full flex flex-col font-sans bg-[#000000] text-white selection:bg-violet-500/30 overflow-x-hidden">
       <style>{flickerStyles}</style>
-      {/* <GlowingCursor /> */}
+      
       <InteractiveBackground />
       <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none" />
       <ToastContainer position="top-right" autoClose={3000} theme="dark" />
@@ -139,11 +139,13 @@ export default function Register4() {
             <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.6, ease: "easeOut", delay: 0.4 }} className="relative w-full h-full">
               <div className="h-full w-full overflo-auto">
                 <TiltCard>
-                  <div className="relative rounded-[20px] p-[1px] bg-transparent h-full flex flex-col animate-flicker-card border border-[#00aaff]/30 ">
+                  {/* Updated Border Color to Violet */}
+                  <div className="relative rounded-[20px] p-[1px] bg-transparent h-full flex flex-col animate-flicker-card border border-[#8b5cf6]/30 ">
                     <div className="bg-blur-xl rounded-[19px] p-6 lg:pr-8 lg:pl-8  relative flex-grow flex flex-col h-full overflow-hidden">
                       <div className="text-center lg:mb-3 mb-3 lg:m-0 flex-shrink-0">
-                        <h2 className="text-xl lg:text-2xl font-bold text-white tracking-wide drop-shadow-md">REGISTRATION FORM</h2>
-                        <p className="text-[#00aaff] text-sm lg:text-lg font-medium tracking-widest uppercase opacity-80">Event Name</p>
+                        <h2 className="text-xl lg:text-2xl font-bold text-white tracking-wide drop-shadow-2xl">REGISTRATION FORM</h2>
+                        {/* Updated Text Color */}
+                        <p className="text-[#a78bfa] text-sm lg:text-lg font-medium tracking-widest uppercase opacity-80">Event Name</p>
                       </div>
 
                       <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid grid-cols-1 grid-rows-8 gap-y-6 w-full h-full flex-grow">
@@ -176,11 +178,12 @@ export default function Register4() {
 
                         <div className="w-full h-full flex items-center justify-center">
                           <motion.button
-                            whileHover={{ scale: 1.02, backgroundColor: "rgba(0, 100, 255, 0.9)" }}
+                            whileHover={{ scale: 1.02, backgroundColor: "rgba(124, 58, 237, 0.9)" }} // Violet Hover
                             whileTap={{ scale: 0.98 }}
                             type="submit"
                             disabled={isLoading}
-                            className="w-full h-full bg-[#004488] hover:bg-[#0055aa] border border-blue-400/30 text-white rounded-lg font-bold tracking-wider shadow-[0_0_20px_rgba(0,100,255,0.4)] transition-all uppercase text-lg lg:text-xl"
+                            // Updated Button Colors to Violet Spectrum
+                            className="w-full h-full bg-[#5b21b6] hover:bg-[#6d28d9] border border-violet-400/30 text-white rounded-lg font-bold tracking-wider shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all uppercase text-lg lg:text-xl"
                           >
                             {isLoading ? 'Processing...' : 'Register'}
                           </motion.button>

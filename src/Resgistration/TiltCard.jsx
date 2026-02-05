@@ -39,13 +39,13 @@ export const TiltCard = ({ children, className = "" }) => {
       }}
       className={`relative w-full h-full flex flex-col justify-center items-center perspective-1000 ${className}`}
     >
-      
+      {/* Holographic Backing Glow */}
       <div 
         className="absolute inset-0 bg-gradient-to-br from-[#00aaff]/10 to-transparent rounded-[20px] -z-10 blur-xl opacity-0 hover:opacity-100 transition-opacity duration-500"
         style={{ transform: "translateZ(-50px)" }}
       />
       
-      
+      {/* 3D Container for Content */}
       <div style={{ transform: "translateZ(30px)", width: "100%" }}>
         {children}
       </div>
