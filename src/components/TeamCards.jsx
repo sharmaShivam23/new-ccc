@@ -266,7 +266,7 @@ const SecondYear = ({ activeYear , data3,setdata3 }) => {
       <div className="h-auto sm:max-w-[90vw] w-full z-50 flex justify-center flex-col  items-center py-8">
          
           <h1 className="mb-10 mt-10 text-2xl font-jetbrains font-extrabold underline text-amber-500">
-            (Batch 2021-2025)
+            (Batch 2024-2028)
           </h1>
 
         <p className="font-bold text-2xl text-white">{data3}</p>

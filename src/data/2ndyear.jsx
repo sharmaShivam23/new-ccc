@@ -63,7 +63,7 @@ export const obj2 = [
     domain: "UI/UX Designer",
     github: "https://github.com/keshav1818",
     linkedin: "linkedin.com/in/keshav-kumar-a861a6380",
-    instagram: "",
+    instagram: "https://www.instagram.com/keshav.18.17.16?igsh=Mmd4dDZlYWdvYWgz",
     year: "2ndyear",
     "__v": 0
   },
@@ -91,9 +91,9 @@ export const obj2 = [
     name: "Manas Sharma",
     profile: Manas,
     domain: "Backend Developer",
-    github: "",
-    linkedin: "",
-    instagram: "",
+    github: "https://github.com/manas0525",
+    linkedin: "https://www.linkedin.com/in/manas-sharma-a6a01a314/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    instagram: "https://www.instagram.com/manassharma08?igsh=MXVjZDZodjNoYmZ6ZA%3D%3D",
     year: "2ndyear",
     "__v": 0
   },
