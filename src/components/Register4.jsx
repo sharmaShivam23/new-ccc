@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-// --- UPDATED IMPORTS (All pointing to ../Resgistration/) ---
+// --- IMPORTS ---
 import { FormInput, FormSelect } from '../Resgistration/FormComponents';
 import { InteractiveBackground } from '../Resgistration/InteractiveBackground';
 import { LeftSideContent } from '../Resgistration/LeftSideContent';
@@ -17,9 +17,10 @@ import { flickerStyles } from '../Resgistration/AnimationStyles';
 import GlowingCursor from '../Resgistration/GlowingCursor';
 import Chatbot from '../Resgistration/Chatbot';
 import PaymentModal from '../Resgistration/PaymentModal';
+import OtpModal from '../Resgistration/OtpModal'; 
 import Success4 from '../Resgistration/Success4';
 
-// --- TILT CARD COMPONENT ---
+// --- TILT CARD (Visual) ---
 const TiltCard = ({ children, className = "" }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -37,7 +38,6 @@ const TiltCard = ({ children, className = "" }) => {
     x.set(xPct);
     y.set(yPct);
   };
-
   const handleMouseLeave = () => { x.set(0); y.set(0); };
 
   return (
@@ -54,15 +54,15 @@ const TiltCard = ({ children, className = "" }) => {
 
 // --- CONFIGURATION ---
 const API_URL = import.meta.env.VITE_API_URL;
-const RECAPTCHA_SITE_KEY = '6LduMGAsAAAAAEEIZKVia0DJKJYf4Ga9a8NwcZI5';
-const branches = ['CSE', 'CSE(AIML)', 'CSE(DS)', 'AIML', 'CS', 'CSE(H)', 'IT', 'CSIT', 'ECE', 'EN', 'Civil', 'ME'];
+const RECAPTCHA_SITE_KEY = '6LduMGAsAAAAAEEIZKVia0DJKJYf4Ga9a8NwcZI5'; 
+const branches = ['CSE', 'CSE (AIML)', 'CSE (DS)', 'AIML', 'CS', 'CS (H)', 'IT', 'CSIT', 'ECE', 'EEE', 'Civil', 'Mechanical'];
 const genders = ['Male', 'Female'];
 const residences = ['Day Scholar', 'Hosteller'];
 
 // --- SCHEMA ---
 const registrationSchema = z.object({
   name: z.string().trim().nonempty("Name is required").min(3, 'MIN 3 CHARACTERS').max(50, 'Invalid Name').regex(/^[A-Za-z ]+$/, 'Invalid Name'),
-  studentNumber: z.string().trim().nonempty("Required").refine(val => /^[0-9]{7,8}$/.test(val) && val.startsWith('25'), "Invalid Student Number"),
+  studentNumber: z.string().trim().nonempty("Required").refine(val => /^[0-9]{7,8}$/.test(val) && val.startsWith('24'), "Invalid Student Number"),
   email: z.string().trim().nonempty("Required").toLowerCase().email("Invalid Email").endsWith("@akgec.ac.in", "Invalid Email").regex(/^[a-z.]{3,}[0-9]+@akgec\.ac\.in$/, "Invalid Email"),
   gender: z.enum(genders, { required_error: 'Select gender' }),
   branch: z.enum(branches, { required_error: 'Select branch' }),
@@ -81,30 +81,27 @@ const registrationSchema = z.object({
 
 export default function Register4() {
   const [isLoading, setIsLoading] = useState(false);
+  
+  // --- STATE FOR MODALS ---
+  const [showOtpModal, setShowOtpModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false); 
+  const [isSuccess, setIsSuccess] = useState(false);
+  
   const [formData, setFormData] = useState(null);
+  const [collectedOtp, setCollectedOtp] = useState(null); 
   const recaptchaRef = useRef(null);
-  const navigate = useNavigate();
-
+  
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors }, reset } = useForm({
     resolver: zodResolver(registrationSchema), mode: 'onChange',
   });
 
-  const watchedStudentNumber = watch("studentNumber");
   const watchedEmail = watch("email");
 
-  useEffect(() => { if (watchedEmail) trigger("email"); }, [watchedStudentNumber, trigger]);
-
-  // Step 1: Open Payment Modal
-  const onFormSubmit = (data) => {
-    setFormData(data);
-    setShowPaymentModal(true);
-  };
-
-  // Step 2: Final Submit -> Show Success IN PLACE
-  const handleFinalSubmit = async (transactionId) => {
+  // --- STEP 1: INITIAL SUBMIT (SEND OTP) ---
+  const onInitialSubmit = async (data) => {
     setIsLoading(true);
+    setFormData(data); 
+
     try {
       const token = await recaptchaRef.current.executeAsync();
       if (!token) {
@@ -113,14 +110,55 @@ export default function Register4() {
         return;
       }
 
+      await axios.post(`${API_URL}/api/v1/send-otp`, { 
+        email: data.email,
+        name: data.name,
+        studentNumber: data.studentNumber,
+        recaptchaToken: token
+      });
+
+      toast.success("OTP Sent to your email!");
+      setShowOtpModal(true); 
+      recaptchaRef.current.reset();
+
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+      recaptchaRef.current.reset();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // --- STEP 2: COLLECT OTP ---
+  const handleCollectOtp = (otpCode) => {
+    setCollectedOtp(otpCode);
+    setShowOtpModal(false);     
+    setShowPaymentModal(true);  
+  };
+
+  // --- STEP 3: FINAL SUBMIT (UPDATED WITH CAPTCHA) ---
+  const handleFinalRegistration = async (transactionId) => {
+    setIsLoading(true);
+    try {
+      // 1. Generate FRESH Captcha Token for final verify
+      const token = await recaptchaRef.current.executeAsync();
+      if (!token) {
+        toast.error("Captcha verification failed. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      // 2. Combine EVERYTHING + Fresh Token
       const finalPayload = { 
         ...formData, 
-        transactionId: transactionId, 
-        captchaToken: token 
+        otp: collectedOtp,       
+        transactionId: transactionId,
+        captchaToken: token // <--- ADDED THIS
       };
 
       await axios.post(
-        `${API_URL}/api/v1/register`,
+        `${API_URL}/api/v1/register`, 
         finalPayload,
         { headers: { 'Content-Type': 'application/json' } }
       );
@@ -129,13 +167,11 @@ export default function Register4() {
       reset();
       setShowPaymentModal(false);
       recaptchaRef.current.reset();
-      
-      // SHOW SUCCESS INSIDE TILT CARD
       setIsSuccess(true); 
 
     } catch (error) {
       toast.error(error.response?.data?.message || 'Registration failed');
-      recaptchaRef.current?.reset();
+      recaptchaRef.current.reset();
     } finally {
       setIsLoading(false);
     }
@@ -150,18 +186,24 @@ export default function Register4() {
       <ToastContainer position="top-right" autoClose={3000} theme="dark" />
       <Chatbot />
       
-      {/* Payment Modal */}
+      <OtpModal 
+        isOpen={showOtpModal}
+        onClose={() => setShowOtpModal(false)}
+        onVerify={handleCollectOtp} 
+        email={formData?.email}
+        isLoading={false} 
+      />
+
       <PaymentModal 
         isOpen={showPaymentModal} 
         onClose={() => setShowPaymentModal(false)} 
-        onSubmit={handleFinalSubmit} 
+        onSubmit={handleFinalRegistration} 
         isLoading={isLoading} 
       />
 
       <div className="relative z-10 flex flex-col w-full items-center justify-center p-4 lg:p-4 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 w-[89vw] h-auto lg:max-h-[100vh] gap-10 lg:gap-6 ">
           
-          {/* --- LEFT SIDE --- */}
           <div className="w-full h-auto lg:h-[95vh] order-2 lg:order-1">
             <motion.div 
               initial={{ opacity: 0, x: -100 }} 
@@ -173,7 +215,6 @@ export default function Register4() {
             </motion.div>
           </div>
 
-          {/* --- RIGHT SIDE --- */}
           <div className="w-full h-[750px] lg:h-[95vh] order-1 lg:order-2">
             <motion.div 
               initial={{ opacity: 0, y: 100 }} 
@@ -188,7 +229,6 @@ export default function Register4() {
                       
                       <AnimatePresence mode="wait">
                         {!isSuccess ? (
-                          // --- REGISTRATION FORM ---
                           <motion.div
                             key="form"
                             initial={{ opacity: 0 }}
@@ -202,7 +242,7 @@ export default function Register4() {
                                 <p className="text-[#a78bfa] text-sm lg:text-lg font-medium tracking-widest uppercase opacity-80">NIMBUS 3.0</p>
                               </div>
 
-                              <form onSubmit={handleSubmit(onFormSubmit)} noValidate className="grid grid-cols-1 grid-rows-8 gap-y-6 w-full h-full flex-grow">
+                              <form onSubmit={handleSubmit(onInitialSubmit)} noValidate className="grid grid-cols-1 grid-rows-8 gap-y-6 w-full h-full flex-grow">
                                 <FormInput name="name" type="text" placeholder="Enter Name" register={register} error={errors.name} />
                                 <FormInput
                                   name="studentNumber"
@@ -238,13 +278,12 @@ export default function Register4() {
                                     disabled={isLoading}
                                     className="w-full h-full bg-[#5b21b6] hover:bg-[#6d28d9] border border-violet-400/30 text-white rounded-lg font-bold tracking-wider shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all uppercase text-lg lg:text-xl"
                                   >
-                                    {isLoading ? 'Processing...' : 'Proceed to Pay'}
+                                    {isLoading ? 'Sending OTP...' : 'Next'}
                                   </motion.button>
                                 </div>
                               </form>
                           </motion.div>
                         ) : (
-                          // --- SUCCESS PAGE COMPONENT (Rendered Inside) ---
                           <Success4 
                             transactionId={formData?.transactionId} 
                             onReset={() => {

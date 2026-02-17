@@ -71,7 +71,7 @@ export const InfoFlipper = () => {
                     <Calendar size={14} className="text-violet-400" />
                     <div className="flex flex-col leading-none">
                         <span className="text-[8px] text-gray-400 uppercase">When</span>
-                        <span className="text-[10px] font-bold text-white">24-25 FEB</span>
+                        <span className="text-[10px] font-bold text-white">23-24 FEB</span>
                     </div>
                 </div>
                 

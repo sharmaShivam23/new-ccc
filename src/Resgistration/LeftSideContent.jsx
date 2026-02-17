@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { flickerStyles } from './AnimationStyles';
-import { TopDecoration, RegisteredBadge } from './CyberComponents';
+import { TopDecoration } from './CyberComponents';
 import { InfoFlipper } from './InfoFlipper';
 
 const TiltCard = ({ children }) => {
@@ -37,11 +37,6 @@ const TiltCard = ({ children }) => {
 
 export const LeftSideContent = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [registeredCount, setRegisteredCount] = useState(null);
-
-  useEffect(() => {
-    setTimeout(() => setRegisteredCount(92), 1000);
-  }, []);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center p-0">
@@ -51,9 +46,9 @@ export const LeftSideContent = () => {
         <div className="relative w-full h-full rounded-[20px] p-[1px] bg-transparent flex flex-col animate-flicker-card border border-[#8b5cf6]/30">
             <div className="bg-blur-xl rounded-[19px] p-4 lg:p-6 relative flex-grow flex flex-col h-full overflow-hidden items-center">
                 
+                {/* Decoration Area */}
                 <div className="w-full relative z-20 mb-3 h-14 lg:h-16 flex justify-center"> 
-                    <RegisteredBadge count={registeredCount} />
-                    <TopDecoration daysLeft={8} />
+                    <TopDecoration />
                 </div>
 
                 {/* Poster Container with Reveal Animation */}
@@ -79,7 +74,7 @@ export const LeftSideContent = () => {
                 </div>
 
                 <div className="w-full mt-4 h-auto z-20">
-                     <InfoFlipper />
+                      <InfoFlipper />
                 </div>
 
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-violet-500/10 blur-[100px] -z-10 rounded-full pointer-events-none" />
