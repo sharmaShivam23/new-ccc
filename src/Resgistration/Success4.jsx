@@ -29,11 +29,7 @@ const Success4 = ({ transactionId, onReset }) => {
         </p>
       </div>
 
-      <div className="p-4 bg-white/5 border border-white/10 rounded-xl w-full max-w-sm">
-        <p className="text-sm text-gray-400">Transaction ID</p>
-        <p className="text-white font-mono text-lg tracking-wider">{transactionId || "N/A"}</p>
-      </div>
-
+     
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
