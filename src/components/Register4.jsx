@@ -62,7 +62,9 @@ const residences = ['Day Scholar', 'Hosteller'];
 // --- SCHEMA ---
 const registrationSchema = z.object({
   name: z.string().trim().nonempty("Name is required").min(3, 'MIN 3 CHARACTERS').max(50, 'Invalid Name').regex(/^[A-Za-z ]+$/, 'Invalid Name'),
-  studentNumber: z.string().trim().nonempty("Required").refine(val => /^[0-9]{7,8}$/.test(val) && val.startsWith('24'), "Invalid Student Number"),
+  studentNumber: z.string().trim().nonempty("Required")
+  .refine(val => /^(23|24|25)[0-9]{7,8}$/.test(val), 
+  "Invalid Student Number"),
   email: z.string().trim().nonempty("Required").toLowerCase().email("Invalid Email").endsWith("@akgec.ac.in", "Invalid Email").regex(/^[a-z.]{3,}[0-9]+@akgec\.ac\.in$/, "Invalid Email"),
   gender: z.enum(genders, { required_error: 'Select gender' }),
   branch: z.enum(branches, { required_error: 'Select branch' }),
