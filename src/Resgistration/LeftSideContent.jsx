@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { flickerStyles } from './AnimationStyles';
 import { InfoFlipper } from './InfoFlipper';
-import { TopDecoration } from './CyberComponents'; // Correct import kept
+import { TopDecoration } from './CyberComponents'; 
 
 const TiltCard = ({ children }) => {
   const x = useMotionValue(0);
@@ -60,25 +60,29 @@ export const LeftSideContent = () => {
                       </div>
                     )}
 
-                    {/* 1. BLURRED BACKGROUND (Kept to fill gaps nicely) */}
-                    <div 
-                        className="absolute inset-0 bg-cover bg-center blur-xl opacity-40 scale-110"
+                    {/* 1. BLURRED BACKGROUND (Static Fade In) */}
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={isLoaded ? { opacity: 0.4 } : {}}
+                        transition={{ duration: 2.5 }}
+                        className="absolute inset-0 bg-cover bg-center blur-xl scale-110"
                         style={{ backgroundImage: `url('/numbus300.svg')` }}
                     />
 
-                    {/* 2. MAIN POSTER (Fully Visible - object-contain) */}
+                    {/* 2. MAIN POSTER (Rolling Reveal Animation Restored) */}
                     <motion.img 
                       src="/numbus300.svg" 
                       alt="Event Poster" 
                       onLoad={() => setIsLoaded(true)}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-                      transition={{ duration: 0.8 }}
+                      // The "Paper Roll" Effect
+                      initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
+                      animate={isLoaded ? { clipPath: 'inset(0% 0% 0% 0%)' } : {}}
+                      transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }} // Smooth "paper" ease
+                      
                       className="relative z-10 max-w-full max-h-full object-contain shadow-2xl"
                     />
 
                     {/* --- DESKTOP ONLY SIDE SHADOWS --- */}
-                    {/* 'hidden lg:block' means they are invisible on mobile, visible on large screens */}
                     <div className="hidden lg:block absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none" />
                     <div className="hidden lg:block absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none" />
                     

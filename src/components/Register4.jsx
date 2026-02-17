@@ -210,7 +210,7 @@ export default function Register4() {
             <motion.div 
               initial={{ opacity: 0, x: -100 }} 
               animate={{ opacity: 1, x: 0 }} 
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} 
+              transition={{ duration: 1.6, ease: "easeOut", delay: 0.2 }} 
               className="w-full h-full"
             >
               <LeftSideContent />
@@ -219,9 +219,9 @@ export default function Register4() {
 
           <div className="w-full h-[750px] lg:h-[95vh] order-1 lg:order-2">
             <motion.div 
-              initial={{ opacity: 0, y: 100 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} 
+              initial={{ opacity: 0, x: 100 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              transition={{ duration: 1.6, ease: "easeOut", delay: 0.2 }} 
               className="relative w-full h-full"
             >
               <div className="h-full w-full overflow-visible">
@@ -236,7 +236,7 @@ export default function Register4() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.6 }}
                             className="flex flex-col h-full"
                           >
                              <div className="text-center lg:mb-3 mb-3 lg:m-0 flex-shrink-0">
@@ -269,7 +269,7 @@ export default function Register4() {
                                   error={errors.phone}
                                   onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                                 />
-                                <FormInput name="unstopId" type="text" placeholder="Enter Unstop Id or (NaN)" register={register} error={errors.unstopId} />
+                                <FormInput name="unstopId" type="text" placeholder="Enter Unstop Id(If any)" register={register} error={errors.unstopId} />
                                 <FormSelect name="residence" placeholder="Select Residence" setValue={setValue} watch={watch} error={errors.residence} options={residences} />
 
                                 <div className="w-full h-full flex items-center justify-center">
