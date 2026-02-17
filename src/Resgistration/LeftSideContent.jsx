@@ -62,7 +62,7 @@ export const LeftSideContent = () => {
                     )}
 
                     <motion.img 
-                      src="/numbus300.svg" 
+                      src="" 
                       alt="Event Poster" 
                       onLoad={() => setIsLoaded(true)}
                       initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
