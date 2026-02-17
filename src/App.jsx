@@ -15,7 +15,7 @@ import { Contact } from "./components/Contact";
 import { Ereacticons } from "./components/Ereacticons";
 import { ECloud } from "./components/ECloud";
 import Register4 from "./components/Register4";
-import SuccessPage from "./Resgistration/SuccessPage";
+import Success4 from "./Resgistration/Success4";
 
 const ProtectedSuccessRoute = ({ children }) => {
   const location = useLocation();
@@ -57,7 +57,7 @@ const App = () => {
               path="/success" 
               element={
                 <ProtectedSuccessRoute>
-                  <SuccessPage />
+                  <Success4 />
                 </ProtectedSuccessRoute>
               } 
             />
