@@ -62,7 +62,7 @@ export const LeftSideContent = () => {
                     )}
 
                     <motion.img 
-                      src="https://new-cccc.vercel.app/assets/nimbusp-Cu5HSp79.jpg" 
+                      src="/numbus300.svg" 
                       alt="Event Poster" 
                       onLoad={() => setIsLoaded(true)}
                       initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
