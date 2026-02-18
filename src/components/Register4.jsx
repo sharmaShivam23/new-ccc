@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 // --- IMPORTS ---
+// --- IMPORTS ---
 import { FormInput, FormSelect } from '../Resgistration/FormComponents';
 import { InteractiveBackground } from '../Resgistration/InteractiveBackground';
 import { LeftSideContent } from '../Resgistration/LeftSideContent';
@@ -17,7 +18,7 @@ import { flickerStyles } from '../Resgistration/AnimationStyles';
 import GlowingCursor from '../Resgistration/GlowingCursor';
 import Chatbot from '../Resgistration/Chatbot';
 import PaymentModal from '../Resgistration/PaymentModal';
-import OtpModal from '../Resgistration/OtpModal'; 
+import OtpModal from '../Resgistration/OtpModal';
 import Success4 from '../Resgistration/Success4';
 
 // --- TILT CARD (Visual) ---
@@ -55,7 +56,7 @@ const TiltCard = ({ children, className = "" }) => {
 // --- CONFIGURATION ---
 const API_URL = import.meta.env.VITE_API_URL;
 const RECAPTCHA_SITE_KEY = '6LduMGAsAAAAAEEIZKVia0DJKJYf4Ga9a8NwcZI5'; 
-const branches = ['CSE', 'CSE (AIML)', 'CSE (DS)', 'AIML', 'CS', 'CS (H)', 'IT', 'CSIT', 'ECE', 'EEE', 'Civil', 'Mechanical'];
+const branches = ['CSE', 'CSE(AIML)', 'CSE(DS)', 'AIML', 'CS', 'CSE(H)', 'IT', 'CSIT', 'ECE', 'EN', 'Civil', 'ME'];
 const genders = ['Male', 'Female'];
 const residences = ['Day Scholar', 'Hosteller'];
 
@@ -63,13 +64,12 @@ const residences = ['Day Scholar', 'Hosteller'];
 const registrationSchema = z.object({
   name: z.string().trim().nonempty("Name is required").min(3, 'MIN 3 CHARACTERS').max(50, 'Invalid Name').regex(/^[A-Za-z ]+$/, 'Invalid Name'),
   studentNumber: z.string().trim().nonempty("Required")
-  .refine(val => /^(23|24|25)[0-9]{5,6}$/.test(val), 
-  "Invalid Student Number"),
+    .refine(val => /^(23|24|25)[0-9]{5,6}$/.test(val), "Invalid Student Number"),
   email: z.string().trim().nonempty("Required").toLowerCase().email("Invalid Email").endsWith("@akgec.ac.in", "Invalid Email").regex(/^[a-z.]{3,}[0-9]+@akgec\.ac\.in$/, "Invalid Email"),
   gender: z.enum(genders, { required_error: 'Select gender' }),
   branch: z.enum(branches, { required_error: 'Select branch' }),
   phone: z.string().trim().nonempty("Required").regex(/^[6-9]\d{9}$/, "Invalid Phone Number"),
-
+  unstopId: z.string().trim().nonempty("Required").min(3, "Invalid Unstop ID").max(50, "Invalid Unstop ID").regex(/^[a-zA-Z0-9._-]+$/, "Invalid Unstop ID"),
   residence: z.enum(residences, { required_error: 'Select residence' }),
 }).superRefine((data, ctx) => {
   const emailLocalPart = data.email.split('@')[0];
@@ -139,6 +139,12 @@ export default function Register4() {
     setShowPaymentModal(true);  
   };
 
+  // --- HANDLER: BACK FROM PAYMENT TO OTP ---
+  const handleBackFromPayment = () => {
+    setShowPaymentModal(false);
+    setShowOtpModal(true); // Go back to OTP, where logic now clears the input on open
+  };
+
   // --- STEP 3: FINAL SUBMIT (UPDATED WITH CAPTCHA) ---
   const handleFinalRegistration = async (transactionId) => {
     setIsLoading(true);
@@ -156,7 +162,7 @@ export default function Register4() {
         ...formData, 
         otp: collectedOtp,       
         transactionId: transactionId,
-        captchaToken: token // <--- ADDED THIS
+        captchaToken: token 
       };
 
       await axios.post(
@@ -188,17 +194,21 @@ export default function Register4() {
       <ToastContainer position="top-right" autoClose={3000} theme="dark" />
       <Chatbot />
       
+      {/* 1. OTP Modal with Back Button Prop */}
       <OtpModal 
         isOpen={showOtpModal}
-        onClose={() => setShowOtpModal(false)}
+        onClose={() => setShowOtpModal(false)} // Acts as Back to Form
+        onBack={() => setShowOtpModal(false)}  // Explicit Back button action
         onVerify={handleCollectOtp} 
         email={formData?.email}
         isLoading={false} 
       />
 
+      {/* 2. Payment Modal with Back Button Prop */}
       <PaymentModal 
         isOpen={showPaymentModal} 
         onClose={() => setShowPaymentModal(false)} 
+        onBack={handleBackFromPayment} // Back goes to OTP
         onSubmit={handleFinalRegistration} 
         isLoading={isLoading} 
       />
@@ -269,7 +279,7 @@ export default function Register4() {
                                   error={errors.phone}
                                   onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                                 />
-                                <FormInput name="unstopId" type="text" placeholder="Enter Unstop Id(If any)" register={register} error={errors.unstopId} />
+                                <FormInput name="unstopId" type="text" placeholder="Enter Unstop Id (If any)" register={register} error={errors.unstopId} />
                                 <FormSelect name="residence" placeholder="Select Residence" setValue={setValue} watch={watch} error={errors.residence} options={residences} />
 
                                 <div className="w-full h-full flex items-center justify-center">
