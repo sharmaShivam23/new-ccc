@@ -1,15 +1,36 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, ArrowLeft, QrCode } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Download, Copy, CheckCircle2 } from 'lucide-react';
 
 export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoading }) {
   const [txnId, setTxnId] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  // --- CONFIG ---
+  // Replace with your actual image path and UPI ID
+  const QR_IMAGE_URL = "/qr.jpeg"; 
+  const UPI_ID = "8077039513@ptsbi"; 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (txnId.trim()) {
       onSubmit(txnId);
     }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(UPI_ID);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = QR_IMAGE_URL;
+    link.download = 'Payment_QR.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -38,15 +59,15 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center gap-3">
-                         {/* Back Button */}
-                         <button 
+                          {/* Back Button */}
+                          <button 
                             onClick={onBack} 
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
                             title="Back to OTP"
-                         >
+                          >
                             <ArrowLeft size={20} />
-                         </button>
-                         <h3 className="text-2xl font-bold text-white tracking-tight">Complete Payment</h3>
+                          </button>
+                          <h3 className="text-2xl font-bold text-white tracking-tight">Complete Payment</h3>
                     </div>
                     <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors">
                         <X size={24} />
@@ -54,17 +75,40 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-6">
-                    {/* QR Code Section */}
-                    <div className="flex flex-col items-center justify-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
-                        <div className="w-32 h-32 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                             {/* Replace with your actual QR code image */}
-                             <img src="/qr.jpg" alt="UPI QR" className="w-full h-full object-cover" /> 
+                    {/* LEFT: QR Code & UPI Section */}
+                    <div className="flex flex-col gap-3 w-full md:w-auto">
+                        <div className="flex flex-col items-center justify-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
+                            {/* Downloadable Container */}
+                            <div className="relative group cursor-pointer" onClick={handleDownload} title="Click to Download">
+                                <div className="w-32 h-32 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                                     <img src={QR_IMAGE_URL} alt="UPI QR" className="w-full h-full object-cover" /> 
+                                </div>
+                                {/* Hover Overlay */}
+                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                                    <Download className="text-white" size={20} />
+                                </div>
+                            </div>
+                            
+                            <div className="flex flex-col items-center">
+                                <span className="text-xs text-gray-400 font-mono">Scan to Pay</span>
+                                <span className="text-lg font-bold text-white">₹ 100</span>
+                            </div>
                         </div>
-                        <span className="text-xs text-gray-400 font-mono">Scan via any UPI App</span>
-                        <span className="text-lg font-bold text-white">₹ 150</span>
+
+                        {/* UPI ID Copy Section */}
+                        <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-2 px-3">
+                            <span className="text-xs font-mono text-gray-300 truncate max-w-[120px]">{UPI_ID}</span>
+                            <button 
+                                onClick={handleCopy}
+                                className="text-violet-400 hover:text-violet-300 transition-colors"
+                                title="Copy UPI ID"
+                            >
+                                {copied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Form Section */}
+                    {/* RIGHT: Transaction Form */}
                     <div className="flex-1 flex flex-col justify-center gap-4">
                         <div className="space-y-1">
                             <label className="text-sm text-gray-400 font-medium">Transaction ID / UTR</label>
