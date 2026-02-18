@@ -23,7 +23,7 @@
     "clsx": "^2.1.1",
     "form": "^0.2.5",
     "framer-motion": "^12.2.0",
-    "gsap": "^3.12.5",
+    "gsap": "^3.14.2",
     "hook": "^0.1.0",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.469.0",

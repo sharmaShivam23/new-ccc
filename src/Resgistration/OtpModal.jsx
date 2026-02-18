@@ -10,18 +10,27 @@ export default function OtpModal({ isOpen, onClose, onBack, onVerify, email, isL
   useEffect(() => {
     if (isOpen) {
       setOtp(['', '', '', '', '', '']); // Clear OTP on Open
+      
+      // Slight delay ensures the modal animation is started before focusing
+      // This triggers the keyboard to open automatically
       if (inputRefs.current[0]) {
-        setTimeout(() => inputRefs.current[0].focus(), 100);
+        setTimeout(() => {
+          inputRefs.current[0].focus();
+        }, 100);
       }
     }
   }, [isOpen]);
 
   const handleChange = (index, value) => {
-    if (isNaN(value)) return;
+    // Regex ensures only numbers are accepted
+    if (value && !/^\d+$/.test(value)) return;
+
     const newOtp = [...otp];
+    // Take the last character entered (handles cases where user types fast)
     newOtp[index] = value.substring(value.length - 1);
     setOtp(newOtp);
 
+    // Move to next input
     if (value && index < 5 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1].focus();
     }
@@ -94,7 +103,14 @@ export default function OtpModal({ isOpen, onClose, onBack, onVerify, email, isL
                   <input
                     key={index}
                     ref={(el) => (inputRefs.current[index] = el)}
-                    type="text"
+                    
+                    /* --- KEY CHANGES HERE --- */
+                    type="text" 
+                    inputMode="numeric" // Forces number pad on Android/iOS
+                    pattern="[0-9]*"    // Fallback for iOS number pad
+                    autoComplete="one-time-code" // Allows SMS Auto-fill
+                    /* ------------------------ */
+
                     maxLength={1}
                     value={digit}
                     onChange={(e) => handleChange(index, e.target.value)}

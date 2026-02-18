@@ -44,10 +44,10 @@ export const LeftSideContent = () => {
       
       <TiltCard>
         <div className="relative w-full h-full rounded-[20px] p-[1px] bg-transparent flex flex-col animate-flicker-card border border-[#8b5cf6]/30">
-            <div className="bg-[#050505] bg-blur-xl rounded-[19px] p-4 lg:p-6 relative flex-grow flex flex-col h-full overflow-hidden items-center">
+            <div className="bg-transparent  rounded-[19px] p-4 lg:p-6 relative flex-grow flex flex-col h-full overflow-hidden items-center">
                 
                 {/* Decoration Area */}
-                <div className="w-full relative z-20 mb-3 h-14 lg:h-16 flex justify-center"> 
+                <div className="w-full relative z-20  h-14 lg:h-16 flex justify-center"> 
                     <TopDecoration />
                 </div>
 
@@ -65,13 +65,13 @@ export const LeftSideContent = () => {
                         initial={{ opacity: 0 }}
                         animate={isLoaded ? { opacity: 0.4 } : {}}
                         transition={{ duration: 2.5 }}
-                        className="absolute inset-0 bg-cover bg-center blur-xl scale-110"
-                        style={{ backgroundImage: `url('/numbus300.svg')` }}
+                        className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 "
+                        style={{ backgroundImage: `url('/numbus30.svg')` }}
                     />
 
                     {/* 2. MAIN POSTER (Rolling Reveal Animation Restored) */}
                     <motion.img 
-                      src="/numbus300.svg" 
+                      src="/nimbus30.svg" 
                       alt="Event Poster" 
                       onLoad={() => setIsLoaded(true)}
                       // The "Paper Roll" Effect
