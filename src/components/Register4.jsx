@@ -15,11 +15,11 @@ import { FormInput, FormSelect } from '../Resgistration/FormComponents';
 import { InteractiveBackground } from '../Resgistration/InteractiveBackground';
 import { LeftSideContent } from '../Resgistration/LeftSideContent';
 import { flickerStyles } from '../Resgistration/AnimationStyles';
-import GlowingCursor from '../Resgistration/GlowingCursor';
-import Chatbot from '../Resgistration/Chatbot';
+  
 import PaymentModal from '../Resgistration/PaymentModal';
 import OtpModal from '../Resgistration/OtpModal';
 import Success4 from '../Resgistration/Success4';
+import TargetCursor from '@/Resgistration/TargetCursor';
 
 // --- TILT CARD (Visual) ---
 const TiltCard = ({ children, className = "" }) => {
@@ -188,11 +188,17 @@ export default function Register4() {
   return (
     <div className="relative min-h-screen w-full flex flex-col font-sans bg-[#000000] text-white selection:bg-violet-500/30 overflow-x-hidden">
       <style>{flickerStyles}</style>
-      <GlowingCursor />
+      <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor
+        parallaxOn
+  hoverDuration={0.2}
+  targetSelector="button, input, select, a, .cursor-pointer, [type='submit']"
+/>
       <InteractiveBackground />
       <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none" />
       <ToastContainer position="top-right" autoClose={3000} theme="dark" />
-      <Chatbot />
+      
       
       {/* 1. OTP Modal with Back Button Prop */}
       <OtpModal 
