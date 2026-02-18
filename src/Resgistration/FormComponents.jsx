@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { flickerStyles } from './AnimationStyles';
 
-// --- SHINE ANIMATION ---
+// --- SHINE ANIMATION & AUTOFILL FIX ---
 const localStyles = `
   @keyframes sword-shine-fixed {
     0% { transform: translateX(-150%) skewX(-20deg); opacity: 0; }
@@ -13,6 +13,18 @@ const localStyles = `
   
   .animate-shine-fixed {
     animation: sword-shine-fixed 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* --- AUTOFILL OVERRIDE --- */
+  /* This targets the browser's forced styling */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active {
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
+      box-shadow: inset 0 0 20px 20px #23232329; /* Matches your bg-black/20 approx */
   }
 `;
 
@@ -27,11 +39,11 @@ const LAYOUT_CLASSES = `
 // 1. DEFAULT STATE (Flickering Border)
 const DEFAULT_CLASSES = "bg-black/20 border border-[#8b5cf6]/40 animate-flicker-card";
 
-// 2. FOCUSED STATE (Strong Static Glow - Animation Removed)
+// 2. FOCUSED STATE (Strong Static Glow)
 const FOCUSED_CLASSES = "bg-[#8b5cf6]/30 border border-[#a78bfa] shadow-[0_0_60px_rgba(139,92,246,0.8)]";
 
-// 3. ERROR STATE
-const ERROR_CLASSES = "border border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.5)]";
+// 3. ERROR STATE (Dark Red Background to prevent white flash)
+const ERROR_CLASSES = "bg-red-500/10 border border-red-500 shadow-[0_0_20px_rgba(255,0,0,0.5)]";
 
 
 // --- SHINE COMPONENT ---
@@ -46,7 +58,7 @@ const ShineOverlay = ({ isActive }) => (
 export const FormInput = ({ name, type, register, error, placeholder, ...props }) => {
   const [isFocused, setIsFocused] = useState(false);
   
-  // Determine active styling based on State logic instead of CSS pseudo-classes
+  // Determine active styling
   const activeStyle = error 
     ? ERROR_CLASSES 
     : isFocused 
@@ -60,6 +72,7 @@ export const FormInput = ({ name, type, register, error, placeholder, ...props }
       
       <div className="relative h-full">
         <input
+          autoComplete="off" // Helps reduce autofill aggression
           type={type} 
           id={name} 
           placeholder={placeholder} 
