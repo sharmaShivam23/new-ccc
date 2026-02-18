@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Cloud, Github, Code, Cpu } from 'lucide-react';
+import { 
+  Cloud, Github, Code, Cpu, // Front icons
+  Calendar, MapPin, Trophy    // Back icons (Updated)
+} from 'lucide-react';
 
 export const InfoFlipper = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // --- ADDED: Auto-flip logic ---
+  // Auto-flip logic
   useEffect(() => {
     const interval = setInterval(() => {
       setIsFlipped((prev) => !prev);
-    }, 3000); // Flip every 3 seconds
+    }, 4000); 
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div 
       className="relative w-full h-[45px] mt-4 perspective-1000 cursor-pointer group z-40"
-      onClick={() => setIsFlipped(!isFlipped)} // Manual click still works
+      onClick={() => setIsFlipped(!isFlipped)}
     >
       <motion.div
         className="w-full h-full relative preserve-3d transition-all duration-500"
@@ -31,7 +34,6 @@ export const InfoFlipper = () => {
         >
             <div className="w-full h-full border rounded-xl bg-[#0f0f12] flex items-center justify-between px-6 animate-flicker-card">
                 
-                {/* Icons + Text Container */}
                 <div className="flex w-full justify-between items-center px-2">
                     <div className="flex items-center gap-1.5">
                         <Cloud size={12} className="text-violet-400" />
@@ -50,14 +52,14 @@ export const InfoFlipper = () => {
 
                     <div className="flex items-center gap-1.5">
                         <Cpu size={12} className="text-violet-400" />
-                        <span className="text-[10px] text-violet-200 font-mono uppercase tracking-wider">AI</span>
+                        <span className="text-[10px] text-violet-200 font-mono uppercase tracking-wider">AI/ML</span>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        {/* --- BACK SIDE (Details) --- */}
+        {/* --- BACK SIDE (Logistics Info) --- */}
         <div 
             className="absolute inset-0 backface-hidden"
             style={{ 
@@ -65,24 +67,38 @@ export const InfoFlipper = () => {
                 backfaceVisibility: "hidden"
             }}
         >
-             <div className="w-full h-full border rounded-xl bg-[#0f0f12] flex items-center justify-between gap-6 px-4 animate-flicker-card">
+             <div className="w-full h-full border rounded-xl bg-[#0f0f12] flex items-center justify-between px-4 animate-flicker-card">
                 
+                {/* 1. Date */}
                 <div className="flex items-center gap-2">
                     <Calendar size={14} className="text-violet-400" />
                     <div className="flex flex-col leading-none">
-                        <span className="text-[8px] text-gray-400 uppercase">When</span>
-                        <span className="text-[10px] font-bold text-white">23-24 FEB</span>
+                        <span className="text-[7px] text-gray-400 uppercase tracking-wide">Date</span>
+                        <span className="text-[10px] font-bold text-white font-mono">23-24 Feb</span>
                     </div>
                 </div>
                 
                 {/* Divider */}
-                <div className="w-[1px] h-5 bg-white/20" />
+                <div className="w-[1px] h-5 bg-white/10" />
                 
+                {/* 2. Venue */}
                 <div className="flex items-center gap-2">
                     <MapPin size={14} className="text-violet-400" />
                     <div className="flex flex-col leading-none">
-                        <span className="text-[8px] text-gray-400 uppercase">Where</span>
-                        <span className="text-[10px] font-bold text-white">CS/IT Block</span>
+                        <span className="text-[7px] text-gray-400 uppercase tracking-wide">Venue</span>
+                        <span className="text-[10px] font-bold text-white font-mono">CS/IT Block</span>
+                    </div>
+                </div>
+
+                {/* Divider */}
+                <div className="w-[1px] h-5 bg-white/10" />
+
+                {/* 3. Prize Pool */}
+                <div className="flex items-center gap-2">
+                    <Trophy size={14} className="text-yellow-500" />
+                    <div className="flex flex-col leading-none">
+                        <span className="text-[7px] text-gray-400 uppercase tracking-wide">Prizes</span>
+                        <span className="text-[10px] font-bold text-white font-mono">₹ 2K+</span>
                     </div>
                 </div>
 
