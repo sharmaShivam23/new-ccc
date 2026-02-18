@@ -400,7 +400,7 @@ const TiltCard = ({ children, className = "" }) => {
 
 // --- CONFIGURATION ---
 const API_URL = import.meta.env.VITE_API_URL;
-const RECAPTCHA_SITE_KEY = '6LduMGAsAAAAAEEIZKVia0DJKJYf4Ga9a8NwcZI5';
+const RECAPTCHA_SITE_KEY = '6LfOI3AsAAAAAOvQbSwzW1zX4fUo23Re4XUMUoA8';
 const branches = ['CSE', 'CSE(AIML)', 'CSE(DS)', 'AIML', 'CS', 'CSE(H)', 'IT', 'CSIT', 'ECE', 'EN', 'Civil', 'ME'];
 const genders = ['Male', 'Female'];
 const residences = ['Day Scholar', 'Hosteller'];
