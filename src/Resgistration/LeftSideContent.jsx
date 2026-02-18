@@ -66,7 +66,7 @@ export const LeftSideContent = () => {
                         animate={isLoaded ? { opacity: 0.4 } : {}}
                         transition={{ duration: 2.5 }}
                         className="absolute inset-0 bg-cover bg-center blur-2xl scale-110 "
-                        style={{ backgroundImage: `url('/numbus30.svg')` }}
+                        style={{ backgroundImage: `url('/numbus300.svg')` }}
                     />
 
                     {/* 2. MAIN POSTER (Rolling Reveal Animation Restored) */}
