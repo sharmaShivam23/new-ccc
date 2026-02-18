@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, ArrowLeft, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Download, Copy, CheckCircle2, Smartphone } from 'lucide-react';
 
 export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoading }) {
   const [txnId, setTxnId] = useState('');
   const [copied, setCopied] = useState(false);
 
   // --- CONFIG ---
-  // Replace with your actual image path and UPI ID
   const QR_IMAGE_URL = "/qr.jpeg"; 
   const UPI_ID = "8077039513@ptsbi"; 
+  const AMOUNT = "100"; // Updated to match posters
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,6 +31,12 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handlePayViaApp = () => {
+    // UPI Intent Link: Opens standard UPI apps on mobile
+    const upiUrl = `upi://pay?pa=${UPI_ID}&pn=NimbusRegistration&am=${AMOUNT}&cu=INR`;
+    window.location.href = upiUrl;
   };
 
   return (
@@ -59,7 +65,6 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center gap-3">
-                          {/* Back Button */}
                           <button 
                             onClick={onBack} 
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
@@ -75,23 +80,38 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-6">
-                    {/* LEFT: QR Code & UPI Section */}
+                    {/* LEFT: QR Code & Actions */}
                     <div className="flex flex-col gap-3 w-full md:w-auto">
                         <div className="flex flex-col items-center justify-center gap-3 bg-white/5 p-4 rounded-xl border border-white/10">
-                            {/* Downloadable Container */}
-                            <div className="relative group cursor-pointer" onClick={handleDownload} title="Click to Download">
-                                <div className="w-32 h-32 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                                     <img src={QR_IMAGE_URL} alt="UPI QR" className="w-full h-full object-cover" /> 
-                                </div>
-                                {/* Hover Overlay */}
-                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                                    <Download className="text-white" size={20} />
-                                </div>
+                            
+                            {/* QR Image */}
+                            <div className="w-32 h-32 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                                 <img src={QR_IMAGE_URL} alt="UPI QR" className="w-full h-full object-cover" /> 
                             </div>
                             
                             <div className="flex flex-col items-center">
                                 <span className="text-xs text-gray-400 font-mono">Scan to Pay</span>
-                                <span className="text-lg font-bold text-white">₹ 100</span>
+                                <span className="text-lg font-bold text-white">₹ {AMOUNT}</span>
+                            </div>
+
+                            {/* Two Action Buttons */}
+                            <div className="flex gap-2 w-full mt-1">
+                                <button 
+                                    onClick={handleDownload}
+                                    className="flex-1 py-1.5 px-2 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+                                    title="Download QR"
+                                >
+                                    <Download size={14} className="text-violet-300" />
+                                    <span className="text-[10px] font-bold text-gray-300">Save QR</span>
+                                </button>
+                                <button 
+                                    onClick={handlePayViaApp}
+                                    className="flex-1 py-1.5 px-2 bg-violet-600/20 hover:bg-violet-600/40 border border-violet-500/30 rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+                                    title="Open UPI App"
+                                >
+                                    <Smartphone size={14} className="text-violet-300" />
+                                    <span className="text-[10px] font-bold text-violet-200">Open App</span>
+                                </button>
                             </div>
                         </div>
 

@@ -69,7 +69,7 @@ const registrationSchema = z.object({
   gender: z.enum(genders, { required_error: 'Select gender' }),
   branch: z.enum(branches, { required_error: 'Select branch' }),
   phone: z.string().trim().nonempty("Required").regex(/^[6-9]\d{9}$/, "Invalid Phone Number"),
-  unstopId: z.string().trim().nonempty("Required").min(3, "Invalid Unstop ID").max(50, "Invalid Unstop ID").regex(/^[a-zA-Z0-9._-]+$/, "Invalid Unstop ID"),
+  
   residence: z.enum(residences, { required_error: 'Select residence' }),
 }).superRefine((data, ctx) => {
   const emailLocalPart = data.email.split('@')[0];
