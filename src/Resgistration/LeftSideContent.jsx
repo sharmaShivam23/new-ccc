@@ -71,7 +71,7 @@ export const LeftSideContent = () => {
 
                     {/* 2. MAIN POSTER (Rolling Reveal Animation Restored) */}
                     <motion.img 
-                      src="/numbus300.svg" 
+                      src="/nimbus3000.svg" 
                       alt="Event Poster" 
                       onLoad={() => setIsLoaded(true)}
                       // The "Paper Roll" Effect

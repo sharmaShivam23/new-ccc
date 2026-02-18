@@ -65,7 +65,7 @@ export const InfoFlipper = () => {
                 backfaceVisibility: "hidden"
             }}
         >
-             <div className="w-full h-full border rounded-xl bg-[#0f0f12] flex items-center justify-center gap-6 px-4 animate-flicker-card">
+             <div className="w-full h-full border rounded-xl bg-[#0f0f12] flex items-center justify-between gap-6 px-4 animate-flicker-card">
                 
                 <div className="flex items-center gap-2">
                     <Calendar size={14} className="text-violet-400" />
