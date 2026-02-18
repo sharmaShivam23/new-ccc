@@ -9,13 +9,18 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
   // --- CONFIG ---
   const QR_IMAGE_URL = "/qr.jpeg"; 
   const UPI_ID = "8077039513@ptsbi"; 
-  const AMOUNT = "100"; // Updated to match posters
+  const AMOUNT = "100"; 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (txnId.trim()) {
-      onSubmit(txnId);
+    const cleanId = txnId.trim();
+    
+    // Safety check (redundant if button is disabled, but good practice)
+    if (cleanId.length < 6) {
+      return; 
     }
+    
+    onSubmit(cleanId);
   };
 
   const handleCopy = () => {
@@ -34,7 +39,7 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
   };
 
   const handlePayViaApp = () => {
-    // UPI Intent Link: Opens standard UPI apps on mobile
+    // UPI Intent Link
     const upiUrl = `upi://pay?pa=${UPI_ID}&pn=NimbusRegistration&am=${AMOUNT}&cu=INR`;
     window.location.href = upiUrl;
   };
@@ -130,15 +135,38 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
 
                     {/* RIGHT: Transaction Form */}
                     <div className="flex-1 flex flex-col justify-center gap-4">
+                        
+                        {/* INPUT FIELD WITH VALIDATION */}
                         <div className="space-y-1">
-                            <label className="text-sm text-gray-400 font-medium">Transaction ID / UTR</label>
+                            <div className="flex justify-between items-end">
+                                <label className="text-sm text-gray-400 font-medium">Transaction ID / UTR</label>
+                                {/* Character Counter / Error Indicator */}
+                                <span className={`text-[10px] font-mono ${txnId.length > 0 && txnId.trim().length < 6 ? 'text-red-400' : 'text-gray-600'}`}>
+                                    {txnId.length}/12
+                                </span>
+                            </div>
+                            
                             <input 
                                 type="text" 
                                 value={txnId}
                                 onChange={(e) => setTxnId(e.target.value)}
                                 placeholder="Enter 12-digit UTR"
-                                className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none font-mono transition-all"
+                                className={`
+                                    w-full bg-black/40 border rounded-xl px-4 py-3 text-white 
+                                    placeholder-gray-600 outline-none font-mono transition-all
+                                    ${txnId.length > 0 && txnId.trim().length < 6 
+                                        ? 'border-red-500/50 focus:border-red-500 focus:ring-1 focus:ring-red-500' // Error Style
+                                        : 'border-white/20 focus:border-violet-500 focus:ring-1 focus:ring-violet-500' // Normal Style
+                                    }
+                                `}
                             />
+
+                            {/* Validation Message */}
+                            {txnId.length > 0 && txnId.trim().length < 6 && (
+                                <p className="text-[10px] text-red-400 pl-1 animate-pulse">
+                                    * Minimum 6 characters required
+                                </p>
+                            )}
                         </div>
 
                         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
@@ -154,11 +182,12 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
                     onClick={handleSubmit}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    disabled={isLoading || !txnId}
+                    // VALIDATION LOGIC: Disable if loading OR if length < 6
+                    disabled={isLoading || txnId.trim().length < 6}
                     className="w-full mt-6 py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-violet-900/20 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isLoading ? (
-                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
                         <>
                             <span>Confirm Registration</span>
