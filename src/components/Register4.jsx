@@ -262,7 +262,7 @@ export default function Register4() {
                                 <p className="text-[#a78bfa] text-sm lg:text-lg font-medium tracking-widest uppercase opacity-80">NIMBUS 3.0</p>
                               </div>
 
-                              <form onSubmit={handleSubmit(onFormSubmit)} noValidate className="w-full h-full flex flex-col gap-10">
+                              <form onSubmit={handleSubmit(onFormSubmit)} noValidate className="w-full h-full flex flex-col gap-8">
                                 <FormInput name="name" type="text" placeholder="Enter Name" register={register} error={errors.name} />
                                 <FormInput
                                   name="studentNumber"
@@ -278,7 +278,7 @@ export default function Register4() {
                                   <FormSelect name="gender" placeholder="Select Gender" setValue={setValue} watch={watch} error={errors.gender} options={genders} />
                                   <FormSelect name="branch" placeholder="Branch" setValue={setValue} watch={watch} error={errors.branch} options={branches} />
                                 </div>
-
+                                <FormSelect name="residence" placeholder="Select Residence" setValue={setValue} watch={watch} error={errors.residence} options={residences} />
                                 <FormInput
                                   name="phone"
                                   type="tel"
@@ -288,7 +288,7 @@ export default function Register4() {
                                   onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); }}
                                 />
                                
-                                <FormSelect name="residence" placeholder="Select Residence" setValue={setValue} watch={watch} error={errors.residence} options={residences} />
+                                
 
                                 <div className="w-full h-full flex items-center justify-center">
                                   <motion.button
