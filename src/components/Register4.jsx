@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 // --- IMPORTS ---
-// --- IMPORTS ---
 import { FormInput, FormSelect } from '../Resgistration/FormComponents';
 import { InteractiveBackground } from '../Resgistration/InteractiveBackground';
 import { LeftSideContent } from '../Resgistration/LeftSideContent';
@@ -69,7 +68,6 @@ const registrationSchema = z.object({
   gender: z.enum(genders, { required_error: 'Select gender' }),
   branch: z.enum(branches, { required_error: 'Select branch' }),
   phone: z.string().trim().nonempty("Required").regex(/^[6-9]\d{9}$/, "Invalid Phone Number"),
-  
   residence: z.enum(residences, { required_error: 'Select residence' }),
 }).superRefine((data, ctx) => {
   const emailLocalPart = data.email.split('@')[0];
@@ -90,19 +88,23 @@ export default function Register4() {
   const [isSuccess, setIsSuccess] = useState(false);
   
   const [formData, setFormData] = useState(null);
-  const [collectedOtp, setCollectedOtp] = useState(null); 
+  const [txnId, setTxnId] = useState(null); // Store Transaction ID
   const recaptchaRef = useRef(null);
   
   const { register, handleSubmit, setValue, watch, trigger, formState: { errors }, reset } = useForm({
     resolver: zodResolver(registrationSchema), mode: 'onChange',
   });
 
-  const watchedEmail = watch("email");
-
-  // --- STEP 1: INITIAL SUBMIT (SEND OTP) ---
-  const onInitialSubmit = async (data) => {
-    setIsLoading(true);
+  // --- FLOW STEP 1: VALIDATE FORM & OPEN PAYMENT ---
+  const onFormSubmit = (data) => {
     setFormData(data); 
+    setShowPaymentModal(true); // Open Payment First
+  };
+
+  // --- FLOW STEP 2: HANDLE PAYMENT & SEND OTP ---
+  const handlePaymentSubmit = async (transactionId) => {
+    setIsLoading(true);
+    setTxnId(transactionId); // Save for final step
 
     try {
       const token = await recaptchaRef.current.executeAsync();
@@ -112,16 +114,19 @@ export default function Register4() {
         return;
       }
 
+      // Send OTP after payment confirmation
       await axios.post(`${API_URL}/api/v1/send-otp`, { 
-        email: data.email,
-        name: data.name,
-        studentNumber: data.studentNumber,
+        email: formData.email,
+        name: formData.name,
+        studentNumber: formData.studentNumber,
         recaptchaToken: token
       });
 
-      toast.success("OTP Sent to your email!");
-      setShowOtpModal(true); 
-      recaptchaRef.current.reset();
+      toast.success("Payment Recorded. OTP Sent to Email!");
+      recaptchaRef.current.reset(); // Reset for next call
+      
+      setShowPaymentModal(false); // Close Payment
+      setShowOtpModal(true);      // Open OTP
 
     } catch (error) {
       console.error(error);
@@ -132,24 +137,11 @@ export default function Register4() {
     }
   };
 
-  // --- STEP 2: COLLECT OTP ---
-  const handleCollectOtp = (otpCode) => {
-    setCollectedOtp(otpCode);
-    setShowOtpModal(false);     
-    setShowPaymentModal(true);  
-  };
-
-  // --- HANDLER: BACK FROM PAYMENT TO OTP ---
-  const handleBackFromPayment = () => {
-    setShowPaymentModal(false);
-    setShowOtpModal(true); // Go back to OTP, where logic now clears the input on open
-  };
-
-  // --- STEP 3: FINAL SUBMIT (UPDATED WITH CAPTCHA) ---
-  const handleFinalRegistration = async (transactionId) => {
+  // --- FLOW STEP 3: VERIFY OTP & FINAL REGISTER ---
+  const handleOtpVerify = async (otpCode) => {
     setIsLoading(true);
     try {
-      // 1. Generate FRESH Captcha Token for final verify
+      // Get FRESH token for registration
       const token = await recaptchaRef.current.executeAsync();
       if (!token) {
         toast.error("Captcha verification failed. Please try again.");
@@ -157,11 +149,11 @@ export default function Register4() {
         return;
       }
 
-      // 2. Combine EVERYTHING + Fresh Token
+      // Compile final payload
       const finalPayload = { 
         ...formData, 
-        otp: collectedOtp,       
-        transactionId: transactionId,
+        otp: otpCode,       
+        transactionId: txnId, // Use stored Transaction ID
         captchaToken: token 
       };
 
@@ -173,7 +165,7 @@ export default function Register4() {
 
       toast.success("Registration Successful!");
       reset();
-      setShowPaymentModal(false);
+      setShowOtpModal(false);
       recaptchaRef.current.reset();
       setIsSuccess(true); 
 
@@ -185,6 +177,17 @@ export default function Register4() {
     }
   };
 
+  // --- BACK BUTTON HANDLERS ---
+  const backToForm = () => {
+    setShowPaymentModal(false);
+    // Form remains populated
+  };
+
+  const backToPayment = () => {
+    setShowOtpModal(false);
+    setShowPaymentModal(true);
+  };
+
   return (
     <div className="relative min-h-screen w-full flex flex-col font-sans bg-[#000000] text-white selection:bg-violet-500/30 overflow-x-hidden">
       <style>{flickerStyles}</style>
@@ -192,30 +195,29 @@ export default function Register4() {
         spinDuration={2}
         hideDefaultCursor
         parallaxOn
-  hoverDuration={0.2}
-  targetSelector="button, input, select, a, .cursor-pointer, [type='submit']"
-/>
+        hoverDuration={0.2}
+        targetSelector="button, input, select, a, .cursor-pointer, [type='submit']"
+      />
       <InteractiveBackground />
       <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none" />
       <ToastContainer position="top-right" autoClose={3000} theme="dark" />
       
-      
-      {/* 1. OTP Modal with Back Button Prop */}
-      <OtpModal 
-        isOpen={showOtpModal}
-        onClose={() => setShowOtpModal(false)} // Acts as Back to Form
-        onBack={() => setShowOtpModal(false)}  // Explicit Back button action
-        onVerify={handleCollectOtp} 
-        email={formData?.email}
-        isLoading={false} 
-      />
-
-      {/* 2. Payment Modal with Back Button Prop */}
+      {/* --- PAYMENT MODAL (Step 2) --- */}
       <PaymentModal 
         isOpen={showPaymentModal} 
         onClose={() => setShowPaymentModal(false)} 
-        onBack={handleBackFromPayment} // Back goes to OTP
-        onSubmit={handleFinalRegistration} 
+        onBack={backToForm} 
+        onSubmit={handlePaymentSubmit} // Now calls Send OTP
+        isLoading={isLoading} 
+      />
+
+      {/* --- OTP MODAL (Step 3) --- */}
+      <OtpModal 
+        isOpen={showOtpModal}
+        onClose={() => setShowOtpModal(false)}
+        onBack={backToPayment} // Goes back to payment
+        onVerify={handleOtpVerify} // Calls Final Register
+        email={formData?.email}
         isLoading={isLoading} 
       />
 
@@ -260,7 +262,7 @@ export default function Register4() {
                                 <p className="text-[#a78bfa] text-sm lg:text-lg font-medium tracking-widest uppercase opacity-80">NIMBUS 3.0</p>
                               </div>
 
-                              <form onSubmit={handleSubmit(onInitialSubmit)} noValidate className="grid grid-cols-1 grid-rows-8 gap-y-6 w-full h-full flex-grow">
+                              <form onSubmit={handleSubmit(onFormSubmit)} noValidate className="grid grid-cols-1 grid-rows-8 gap-y-6 w-full h-full flex-grow">
                                 <FormInput name="name" type="text" placeholder="Enter Name" register={register} error={errors.name} />
                                 <FormInput
                                   name="studentNumber"
@@ -296,17 +298,18 @@ export default function Register4() {
                                     disabled={isLoading}
                                     className="w-full h-full bg-[#5b21b6] hover:bg-[#6d28d9] border border-violet-400/30 text-white rounded-lg font-bold tracking-wider shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all uppercase text-lg lg:text-xl"
                                   >
-                                    {isLoading ? 'Sending OTP...' : 'Next'}
+                                    Next
                                   </motion.button>
                                 </div>
                               </form>
                           </motion.div>
                         ) : (
                           <Success4 
-                            transactionId={formData?.transactionId} 
+                            transactionId={txnId} 
                             onReset={() => {
                               setIsSuccess(false);
                               setFormData(null);
+                              setTxnId(null);
                             }} 
                           />
                         )}
