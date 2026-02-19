@@ -7,8 +7,8 @@ export default function PaymentModal({ isOpen, onClose, onBack, onSubmit, isLoad
   const [copied, setCopied] = useState(false);
 
   // --- CONFIG ---
-  const QR_IMAGE_URL = "/aqr1.jpeg"; 
-  const UPI_ID = "9140887448@sbi"; 
+  const QR_IMAGE_URL = "/aqr2.jpeg"; 
+  const UPI_ID = "9140887448@pthdfc"; 
   const AMOUNT = "100"; 
 
   const handleSubmit = (e) => {
