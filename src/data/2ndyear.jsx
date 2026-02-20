@@ -138,7 +138,7 @@ export const obj2 = [
     "__v": 0
   },
   {
-    name: "Subham Pandey",
+    name: "Shubham Pandey",
     profile: Shubham,
     domain: "App Developer",
     github: "https://github.com/shubham-pandey",
