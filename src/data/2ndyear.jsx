@@ -1,7 +1,7 @@
-import Sarthak from "../2024-2028batchimg/Sarthak.jpeg";
+import Sarthak from "../2024-2028batchimg/Sarthakk.jpeg";
 import Anurag from "../2024-2028batchimg/AnuragGupta.png";
 import Ayush from "../2024-2028batchimg/AyushPratap.jpg";
-import Keshav from "../2024-2028batchimg/Keshav.jpg";
+import Keshav from "../2024-2028batchimg/Keshavv.jpeg";
 import Love from "../2024-2028batchimg/LoveVarshney.jpg";
 import Manas from "../2024-2028batchimg/Manas.jpg";
 import Satyam from "../2024-2028batchimg/SatyamAgrawal.jpg";
@@ -100,7 +100,7 @@ export const obj2 = [
   {
     name: "Sanjana",
     profile: Sanjana,
-    domain: "Designer",
+    domain: "UI/UX Designer",
     github: "https://github.com/sanjana20255",
     linkedin: "www.linkedin.com/in/sanjana-1307a4399",
     instagram: "https://www.instagram.com/sanaaa_195",
@@ -120,7 +120,7 @@ export const obj2 = [
   {
     name: "Satyam Agrawal",
     profile: Satyam,
-    domain: "Designer",
+    domain: "UI/UX Designer",
     github: "https://github.com/Satyam2291",
     linkedin: "https://www.linkedin.com/in/satyam-agrawal-007557316",
     instagram: "https://www.instagram.com/satyam97907",
@@ -150,7 +150,7 @@ export const obj2 = [
   {
     name: "Suhani Dubey",
     profile: Suhani,
-    domain: "Designer",
+    domain: "UI/UX Designer",
     github: "https://github.com/suhani888",
     linkedin: "https://www.linkedin.com/in/suhani-dubey-29694731b",
     instagram: "https://www.instagram.com/suhanidubey632",
