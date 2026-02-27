@@ -131,112 +131,104 @@ export const Contact4 = () => {
             </div>
 
             {/* --- Contact Form --- */}
-            <div className="mt-20 max-w-2xl mx-auto relative z-10">
-              <p className="text-center text-sm font-semibold mb-8 tracking-wider">
-                IF YOU GOT ANY QUESTIONS <br /> PLEASE DO NOT HESITATE TO SEND US
-                A MESSAGE
-              </p>
+            <div className="mt-12 sm:mt-16 md:mt-20 
+                w-full 
+                max-w-xl md:max-w-2xl 
+                mx-auto 
+                relative z-10 
+                px-4 sm:px-6">
 
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="relative group">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#2d3238] p-4 rounded-lg border border-gray-700 text-white placeholder-gray-500 
-                           focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/50 
-                           hover:border-gray-600 hover:bg-[#353a42] 
-                           transition-all duration-300 ease-in-out
-                           shadow-lg hover:shadow-violet-500/20 focus:shadow-violet-500/30"
-                  />
-                </div>
+  <p className="text-center text-xs sm:text-sm md:text-base 
+                font-semibold mb-6 sm:mb-8 
+                tracking-wider leading-relaxed">
+    IF YOU GOT ANY QUESTIONS
+    <br className="hidden sm:block" />
+    PLEASE DO NOT HESITATE TO SEND US A MESSAGE
+  </p>
 
-                <div className="relative group">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleEmailChange}
-                    className={`w-full bg-[#2d3238] p-4 rounded-lg border text-white placeholder-gray-500 
-                           focus:outline-none focus:ring-2 focus:ring-violet-500/50 
-                           hover:border-gray-600 hover:bg-[#353a42] 
-                           transition-all duration-300 ease-in-out
-                           shadow-lg hover:shadow-violet-500/20 focus:shadow-violet-500/30
-                           ${emailError ? "border-red-500 focus:border-red-500" : "border-gray-700 focus:border-violet-500"}`}
-                  />
-                  {emailError && (
-                    <p className="text-red-500 text-sm mt-2">{emailError}</p>
-                  )}
-                </div>
+  <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
 
-                <div className="relative group">
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#2d3238] p-4 rounded-lg border border-gray-700 text-white placeholder-gray-500 
-                           focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/50 
-                           hover:border-gray-600 hover:bg-[#353a42] 
-                           transition-all duration-300 ease-in-out
-                           shadow-lg hover:shadow-violet-500/20 focus:shadow-violet-500/30"
-                  />
-                </div>
+    <input
+      type="text"
+      name="name"
+      placeholder="Your Name"
+      value={formData.name}
+      onChange={handleInputChange}
+      className="w-full bg-[#2d3238] p-3 sm:p-4 
+                 rounded-lg border border-gray-700 
+                 text-white placeholder-gray-500 
+                 focus:outline-none focus:border-violet-500 
+                 focus:ring-2 focus:ring-violet-500/50 
+                 text-sm sm:text-base"
+    />
 
-                <div className="relative group">
-                  <textarea
-                    name="message"
-                    rows="4"
-                    placeholder="Message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full bg-[#2d3238] p-4 rounded-lg border border-gray-700 text-white placeholder-gray-500 
-                           focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/50 
-                           hover:border-gray-600 hover:bg-[#353a42] 
-                           transition-all duration-300 ease-in-out
-                           shadow-lg hover:shadow-violet-500/20 focus:shadow-violet-500/30
-                           resize-none"
-                  ></textarea>
-                </div>
+    <div>
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        value={formData.email}
+        onChange={handleEmailChange}
+        className={`w-full bg-[#2d3238] p-3 sm:p-4 
+                   rounded-lg border text-white 
+                   placeholder-gray-500 
+                   focus:outline-none focus:ring-2 
+                   focus:ring-violet-500/50 
+                   text-sm sm:text-base 
+                   ${emailError
+                     ? "border-red-500 focus:border-red-500"
+                     : "border-gray-700 focus:border-violet-500"}`}
+      />
+      {emailError && (
+        <p className="text-red-500 text-xs mt-2">{emailError}</p>
+      )}
+    </div>
 
-                <div className="flex justify-center mt-8">
-                  <button
-                    type="submit"
-                    className="relative bg-[#a97ad4] hover:bg-[#9c6ac4] text-black font-bold py-3 px-12 
-                           transition-all duration-300 ease-in-out
-                           transform hover:scale-110 active:scale-95
-                           shadow-lg hover:shadow-violet-500/50 hover:shadow-2xl
-                           rounded-lg overflow-hidden group
-                           border-2 border-transparent hover:border-violet-400"
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      SEND MESSAGE
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
-                    </span>
-                    <div
-                      className="absolute inset-0 bg-gradient-to-r from-violet-400/0 via-violet-300/20 to-yellow-400/0 
-                                transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-                    ></div>
-                  </button>
-                </div>
-              </form>
-            </div>
+    <input
+      type="text"
+      name="subject"
+      placeholder="Subject"
+      value={formData.subject}
+      onChange={handleInputChange}
+      className="w-full bg-[#2d3238] p-3 sm:p-4 
+                 rounded-lg border border-gray-700 
+                 text-white placeholder-gray-500 
+                 focus:outline-none focus:border-violet-500 
+                 focus:ring-2 focus:ring-violet-500/50 
+                 text-sm sm:text-base"
+    />
+
+    <textarea
+      name="message"
+      rows="4"
+      placeholder="Message"
+      value={formData.message}
+      onChange={handleInputChange}
+      className="w-full bg-[#2d3238] p-3 sm:p-4 
+                 rounded-lg border border-gray-700 
+                 text-white placeholder-gray-500 
+                 focus:outline-none focus:border-violet-500 
+                 focus:ring-2 focus:ring-violet-500/50 
+                 resize-none text-sm sm:text-base"
+    ></textarea>
+
+    <div className="flex justify-center mt-6 sm:mt-8">
+      <button
+        type="submit"
+        className="w-full sm:w-auto 
+                   bg-[#a97ad4] hover:bg-[#9c6ac4] 
+                   text-black font-bold 
+                   py-3 px-6 sm:px-12 
+                   transition-all duration-300 
+                   transform hover:scale-105 active:scale-95 
+                   rounded-lg"
+      >
+        SEND MESSAGE →
+      </button>
+    </div>
+
+  </form>
+</div>
           </div>
 
           {/* --- Social Links & Map Section --- */}
