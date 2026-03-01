@@ -11,7 +11,8 @@ import Footer from "./components/Footer";
 import { Edevclash } from "./components/Edevclash";
 import { Enimbus } from "./components/Enimbus";
 import { Techbuzz } from "./components/ETechbuzz";
-import { Contact } from "./components/Contact";
+// import { Contact } from "./components/Contact";
+import Contact4 from "./components/Contact4"; 
 import { Ereacticons } from "./components/Ereacticons";
 import { ECloud } from "./components/ECloud";
 import Register4 from "./components/Register4";
@@ -44,7 +45,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/Events" element={<Events />} />
             <Route path="/Team" element={<TeamCards />} />
-            <Route path="/Contact" element={<Contact />} />
+            {/* <Route path="/Contact" element={<Contact />} /> */}
+            <Route path="/Contact" element={<Contact4 />} />
             <Route path="/Register" element={<Register4 />} />
             {/* <Route path="/Register" element={<Register />} /> */}
             <Route path="/Devclash" element={<Edevclash />} />
