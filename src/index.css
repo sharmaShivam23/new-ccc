@@ -113,3 +113,19 @@ input[type=number] {
 .shake {
   animation: shake 2s ease-in-out infinite; 
 }
+
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-drop {
+  animation: slideInFromTop 1s ease-out forwards;
+}

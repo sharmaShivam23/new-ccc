@@ -5,9 +5,9 @@ import cloud from "../images/cloud.jpg";
 import ShimmerButton from "./ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import cl from "../images/cl.png"
-import cloud1 from "../images/cloud1.mp4"
-import cloud2 from "../images/cloud2.mp4"
-import cloud3 from "../images/cloud3.gif"
+// import cloud1 from "../images/cloud1.mp4"
+// import cloud2 from "../images/cloud2.mp4"
+// import cloud3 from "../images/cloud3.gif"
 
 const About = () => {
   const navigate = useNavigate();
