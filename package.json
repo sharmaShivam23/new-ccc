@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prebuild": "chmod +x node_modules/.bin/vite"
+    "prebuild": ""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
