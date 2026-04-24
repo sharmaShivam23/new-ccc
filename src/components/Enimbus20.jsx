@@ -13,7 +13,7 @@ import Nimbus_3 from '../EventsImg2/Nimbus_3.jpg';
 import nmbusl from "../EventsImg2/nmbusl.svg"
 import DomeGallery from './DomeGallery';
 
-export const Enimbus = () => {
+export const Enimbus20 = () => {
    useEffect(() => {
       window.scrollTo({
         top : 0,

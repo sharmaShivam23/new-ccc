@@ -3,13 +3,15 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
 
 import Splash from "./components/Splash";
-import { Events } from "./components/Events";
+import { Events4 } from "./components/Events4";
 import Home from "./components/Home";
 import { TeamCards } from "./components/TeamCards";
 import { Navbar } from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Edevclash } from "./components/Edevclash";
 import { Enimbus } from "./components/Enimbus";
+import { Enimbus20 } from "./components/Enimbus20";
+import { Enimbus30 } from "./components/Enimbus30";
 import { Techbuzz } from "./components/ETechbuzz";
 // import { Contact } from "./components/Contact";
 import {Contact5} from "./components/Contact5";
@@ -43,7 +45,7 @@ const App = () => {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Events" element={<Events />} />
+            <Route path="/Events" element={<Events4 />} />
             <Route path="/Team" element={<TeamCards />} />
             <Route path="/Contact" element={<Contact5 />} />
             <Route path="/Register" element={<Register4 />} />
@@ -52,6 +54,8 @@ const App = () => {
             <Route path="/Ereacticons" element={<Ereacticons />} />
             <Route path="/ECloud" element={<ECloud />} />
             <Route path="/Nimbus" element={<Enimbus />} />
+            <Route path="/Nimbus20" element={<Enimbus20 />} />
+            <Route path="/Nimbus30" element={<Enimbus30 />} />
             <Route path="/Techbuzz" element={<Techbuzz />} />
             
             <Route 

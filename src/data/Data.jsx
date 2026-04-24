@@ -21,7 +21,19 @@ export const Data = [
     name : "NIMBUS",
     date : "24th & 25th May 2024",
     content : "The Cloud Computing Cell successfully conducted “NIMBUS, a hands-on introductory workshop covering Git & GitHub, Cloud Computing, Python Programming, Docker, and Machine Learning.",
-     link  :"/Nimbus"
+    link  :"/Nimbus"
+  },
+  {
+    name : "NIMBUS20",
+    date : "2020",
+    content : "The Cloud Computing Cell successfully conducted Nimbus 2020, a comprehensive workshop introducing students to cloud computing fundamentals, modern development tools, and industry practices.",
+    link  :"/Nimbus20"
+  },
+  {
+    name : "NIMBUS30",
+    date : "2023",
+    content : "The Cloud Computing Cell successfully conducted Nimbus 3000, an advanced workshop covering next-generation cloud technologies, DevOps practices, and emerging trends in cloud computing.",
+    link  :"/Nimbus30"
   },
   {
     name : "TECHBUZZ",

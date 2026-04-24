@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import dev from "../EventsImg/dev.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -9,16 +9,14 @@ import dev_1 from '../EventsImg2/Dev_1.jpg';
 import dev_2 from '../EventsImg2/Dev_2.jpg';
 import dev_3 from '../EventsImg2/Dev_3.jpg';
 import dev2l from "../EventsImg2/dev2l.svg"
+import DomeGallery from './DomeGallery';
 
 
 
 export const Edevclash = () => {
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []); // ← [] = only on mount, not every render
   return (
     <>
       <Particles />
@@ -31,37 +29,20 @@ export const Edevclash = () => {
           <Image1 />
           <Image2 />
         </div>
-        <Carousel />
+        <div style={{ width: '100vw', height: '100vh', marginTop: '3rem' }}>
+          <DomeGallery
+            fit={0.8}
+            minRadius={600}
+            maxVerticalRotationDeg={0}
+            segments={34}
+            dragDampening={2}
+            images={[dev_1, dev_2, dev_3]}
+            grayscale={false}
+            overlayBlurColor="transparent"
+          />
+        </div>
       </div>
     </>
-  );
-};
-
-const Head = () => {
-  return (
-    <div className="text-white text-4xl font-bold underline   mt-6">
-      Event-DevClash
-    </div>
-  );
-};
-
-const Image1 = () => {
-  return (
-    <div className="flex justify-center flex-col items-center relative">
-      <img src={dev2l} alt="" className="sm:h-[60vh] h-[40vh]" />
-    </div>
-  );
-};
-
-const Image2 = () => {
-  return (
-    <div className="flex justify-center items-center">
-      <img
-        src={dev}
-        alt=""
-        className="sm:h-[60vh] h-[40vh] mt-8 sm:mt-0 border-2 border-white rounded-lg shadow-lg shadow-white"
-      />
-    </div>
   );
 };
 
@@ -120,3 +101,32 @@ const Carousel = () => {
     </div>
   );
 };
+
+const Head = () => {
+  return (
+    <div className="text-white text-4xl font-bold underline   mt-6">
+      Event-DevClash
+    </div>
+  );
+};
+
+const Image1 = () => {
+  return (
+    <div className="flex justify-center flex-col items-center relative">
+      <img src={dev2l} alt="" className="sm:h-[60vh] h-[40vh]" />
+    </div>
+  );
+};
+
+const Image2 = () => {
+  return (
+    <div className="flex justify-center items-center">
+      <img
+        src={dev}
+        alt=""
+        className="sm:h-[60vh] h-[40vh] mt-8 sm:mt-0 border-2 border-white rounded-lg shadow-lg shadow-white"
+      />
+    </div>
+  );
+};
+

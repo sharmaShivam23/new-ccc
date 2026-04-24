@@ -3,18 +3,22 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useRef, useState } from "react";
 
 function MousePosition() {
-  const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const rafPending = useRef(false);
+  const latest = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
+      latest.current = { x: event.clientX, y: event.clientY };
+      if (rafPending.current) return;          // already queued – skip
+      rafPending.current = true;
+      requestAnimationFrame(() => {
+        rafPending.current = false;
+        setMousePosition({ ...latest.current });
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };

@@ -30,11 +30,8 @@ import { Data } from "@/data/Data";
 
 export const Events = () => {
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []); // ← [] = only on mount
   return (
     <div className="flex justify-center items-center flex-col">
       <EventCarousel />
