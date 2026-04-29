@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from "swiper/modules";
-// framer-motion removed — was imported but never used (bundle bloat)
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoMdArrowRoundForward } from "react-icons/io";
 
@@ -63,9 +63,14 @@ export const Events4 = () => {
       {/* ── Swiper Carousel ── */}
       <div className="relative sm:min-h-[80vh] min-h-[60vh] w-screen flex justify-center items-start pt-8 sm:pt-16 pb-8 overflow-hidden">
         <div className="container mx-auto sm:w-[90vw] w-[350px] sm:h-[40rem] h-[47rem] p-8">
-          <h1 className="text-white text-center text-2xl sm:text-5xl md:text-6xl font-rubik font-bold mb-12 animate-fade-in">
+          <motion.h1
+            initial={{ y: -50, backdropFilter: "brightness(70%)", opacity: 0 }}
+            whileInView={{ y: 0, backdropFilter: "brightness(100%)", opacity: 1 }}
+            transition={{ duration: 1, ease: "easeInOut", delay: 0.1 }}
+            className="text-white text-center text-2xl sm:text-5xl md:text-6xl font-rubik font-bold mb-12"
+          >
             Events
-          </h1>
+          </motion.h1>
 
           <Swiper
             effect="coverflow"
@@ -110,7 +115,12 @@ export const Events4 = () => {
 
       {/* ── ScrollStack Cards ── */}
       <div className="w-full mt-4">
-        <ScrollStack useWindowScroll={true}>
+        <ScrollStack 
+          useWindowScroll={true}
+          itemDistance={60}
+          itemStackDistance={15}
+          scaleDuration={0.5}
+        >
           {Data.map((item, index) => {
             const logo = eventLogos[item.name];
             const gradient = eventGradients[item.name] || "from-[#6E45AC] to-[#66E0CE]";
