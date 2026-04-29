@@ -105,7 +105,7 @@ export const Contact5 = () => {
       try {
         const response = await axios.post(
           // "https://contact-ccc-backend.vercel.app/api/contact",
-          'https://contact-page-ccc.vercel.app/api/contact', 
+          import.meta.env.VITE_LINK_URL, 
           payload,
           { headers: { "Content-Type": "application/json" } }
         );
@@ -294,7 +294,7 @@ export const Contact5 = () => {
               <div className="flex flex-col items-center gap-4">
                 <div className="flex justify-center items-center w-full mt-3">
                   <ReCAPTCHA
-                    sitekey="6Lc1hrosAAAAACluiqCJDKqzRC52-sZZtbMyTktM"
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                     onChange={handleRecaptchaChange}
                     theme="dark"
                     ref={resetRecaptcha}
