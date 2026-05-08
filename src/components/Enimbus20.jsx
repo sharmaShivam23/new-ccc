@@ -6,10 +6,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Confetti from './ui/confetti';
 import Particles from './ui/particles';
-import nimbusp from '../EventsImg/nimbusp.jpg';
-import Nimbus_1 from '../EventsImg2/Nimbus_1.jpg';
-import Nimbus_2 from '../EventsImg2/Nimbus_2.jpg';
-import Nimbus_3 from '../EventsImg2/Nimbus_3.jpg';
+import nimbusp from '../EventsImg/nimbus20.png';
+import Nimbus_1 from '../EventsImg2/Nimbus2_1.jpeg';
+import Nimbus_2 from '../EventsImg2/Nimbus2_2.jpeg';
+import Nimbus_3 from '../EventsImg2/Nimbus2_3.jpeg';
+import Nimbus_4 from '../EventsImg2/Nimbus2_4.jpeg';
+import Nimbus_5 from '../EventsImg2/Nimbus2_5.jpeg';
+import Nimbus_6 from '../EventsImg2/Nimbus2_6.jpeg';
 import nmbusl from "../EventsImg2/nmbusl.svg"
 import DomeGallery from './DomeGallery';
 
@@ -40,7 +43,7 @@ export const Enimbus20 = () => {
           maxVerticalRotationDeg={0}
           segments={34}
           dragDampening={2}
-          images={[Nimbus_1, Nimbus_2, Nimbus_3]}
+          images={[Nimbus_1, Nimbus_2, Nimbus_3, Nimbus_4, Nimbus_5, Nimbus_6]}
           grayscale={false}
           overlayBlurColor="transparent"
         />
@@ -53,7 +56,7 @@ export const Enimbus20 = () => {
 const Head = () => {
   return(
     <div className='text-white text-4xl font-bold underline   mt-6'>
-      Event-Nimbus
+      Event-Nimbus2.0
     </div>
   )
 }
