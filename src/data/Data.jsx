@@ -25,14 +25,14 @@ export const Data = [
   },
   {
     name : "NIMBUS20",
-    date : "2020",
-    content : "The Cloud Computing Cell successfully conducted Nimbus 2020, a comprehensive workshop introducing students to cloud computing fundamentals, modern development tools, and industry practices.",
+    date : "13th & 14th may 2025",
+    content : "Cloud Computing Cell organized Nimbus 2.0, a practical workshop introducing participants to AWS EC2, core AWS services, cloud-based AI image generation, billing and cost management, and Cloud Computing career paths.",
     link  :"/Nimbus20"
   },
   {
     name : "NIMBUS30",
-    date : "2023",
-    content : "The Cloud Computing Cell successfully conducted Nimbus 3000, an advanced workshop covering next-generation cloud technologies, DevOps practices, and emerging trends in cloud computing.",
+    date : "23th & 24th February 2026",
+    content : "Cloud Computing Cell organized Nimbus 3.0, a hands-on technical workshop introducing participants to HTML, CSS, JavaScript, AI Tools, n8n Automation, and Cloud Computing concepts.",
     link  :"/Nimbus30"
   },
   {
