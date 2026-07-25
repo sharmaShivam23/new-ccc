@@ -45,7 +45,7 @@ const PosterCard = ({ onClose, isClosing }) => {
       />
 
       <img
-        src="/sqr.png"
+        src="/desk.svg"
         alt="SPOCC'26 Poster"
         className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-2xl drop-shadow-[0_0_35px_rgba(0,210,255,0.3)] relative z-10"
       />

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaLinkedin, FaInstagram, FaPhone } from 'react-icons/fa';
 import PosterCard from '../PosterCard';
-import posterImg from '../elements/Main_Poster_Optimized.jpg';
-import mobileViewImg from '../elements/mobile view.jpeg';
 import SideRays from '../SideRays';
 
 export const BrandingSection = ({ showPoster, setShowPoster, handleClosePoster, isClosing, onRegisterClick }) => {
@@ -120,13 +118,13 @@ export const BrandingSection = ({ showPoster, setShowPoster, handleClosePoster, 
             </div>
             {/* Mobile Poster (< lg) */}
             <img
-              src={mobileViewImg}
+              src="/mob.svg"
               alt="SPOCC'26 Poster"
               className="block lg:hidden w-full h-full object-fill opacity-95 group-hover:opacity-100 transition-opacity relative z-10"
             />
             {/* Desktop Poster (>= lg) */}
             <img
-              src="/sqr.png"
+              src="/desk.svg"
               alt="SPOCC'26 Poster"
               className="hidden lg:block w-full h-full object-cover aspect-square opacity-90 group-hover:opacity-100 transition-opacity relative z-10"
             />
