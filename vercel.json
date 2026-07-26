@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.register.kaarma.studio/api/:path*"
+      "destination": "https://spocc-registration-form-backend.vercel.app/api/:path*"
     },
     {
       "source": "/((?!api).*)",

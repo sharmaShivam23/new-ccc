@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   const pathString = Array.isArray(path) ? path.join('/') : (path || '');
   
   const queryString = new URLSearchParams(queryParams).toString();
-  const targetUrl = `https://api.register.kaarma.studio/api/${pathString}${queryString ? `?${queryString}` : ''}`;
+  const targetUrl = `https://spocc-registration-form-backend.vercel.app/api/${pathString}${queryString ? `?${queryString}` : ''}`;
 
   try {
     const fetchOptions = {

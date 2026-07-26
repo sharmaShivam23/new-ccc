@@ -21,7 +21,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.register.kaarma.studio',
+        target: 'https://spocc-registration-form-backend.vercel.app',
         changeOrigin: true,
         secure: false,
       },
